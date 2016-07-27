@@ -1,3 +1,6 @@
+import groovy.swing.SwingBuilder
+import org.gradle.plugins.signing.Sign
+		
 plugins {
 	id 'java'
 	id 'maven'
@@ -5,10 +8,12 @@ plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.3.5'
 }
 
+project.ext.sonatypeUsername=''
+project.ext.sonatypePassword=''
+		
 repositories {
 	mavenCentral()
 }
-
 
 dependencies {
 	compile 'org.reflections:reflections:0.9.10'
@@ -17,10 +22,6 @@ dependencies {
 }
 
 signing {
-	keyId='63299E3C0E106645025136688B0213EBE7C2F2DC'
-	password=getPassword('public key password')
-	secretKeyRingFile='~/.gnupg/pubring.kbx'
-
     sign configurations.archives
 }
 
@@ -30,7 +31,7 @@ uploadArchives {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-              authentication(userName: getUsername('sonatypeUsername'), password: getPassword('sonatypePassword'))
+            	authentication(userName: project.sonatypeUsername, password: project.sonatypePassword)
             }
 
             pom.project {
@@ -72,23 +73,38 @@ scmVersion {
 
 project.version = scmVersion.version
 
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.allTasks.any { it instanceof Sign }) {
+        ext."signing.keyId"='63299E3C0E106645025136688B0213EBE7C2F2DC'
+		ext."signing.password"=getPassword('public key password')
+		ext."signing.secretKeyRingFile"='~/.gnupg/pubring.kbx'
+    }
+    
+    if(gradle.taskGraph.hasTask("uploadArchives")) {
+    	project.ext.sonatypeUsername=getUsername('sonatypeUsername')
+    	project.ext.sonatypePassword=getUsername('sonatypePassword')
+    }
+}
+
 def getUsername(name) {
     def username = ''
 	new SwingBuilder().edt {
   		dialog(modal: true,
 			title: 'Please enter your ' + name,
 			alwaysOnTop: true,
-			resizable: false,
+			resizable: true,
 			locationRelativeTo: null,
 			pack: true,
 			show: true
 		) {
 			vbox {
+				label(text: 'Please enter your ' + name)
 				input = textField()
 				button(defaultButton: true, text: 'OK', actionPerformed: {
 					username = input.text;
 					dispose();
 				})
+			}
     	}
 	}
 	return username
@@ -100,17 +116,19 @@ def getPassword(name) {
   		dialog(modal: true,
 			title: 'Please enter your ' + name,
 			alwaysOnTop: true,
-			resizable: false,
+			resizable: true,
 			locationRelativeTo: null,
 			pack: true,
 			show: true
 		) {
 			vbox {
+				label(text: 'Please enter your ' + name)
 				input = passwordField()
 				button(defaultButton: true, text: 'OK', actionPerformed: {
 					pass = input.password;
 					dispose();
 				})
+			}
     	}
 	}
 	return pass
