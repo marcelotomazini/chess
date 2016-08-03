@@ -70,8 +70,6 @@ public class ChessGame {
 		PawnRule pawnRule = new PawnRule(board, null);
 		pawnRule.promoteTo(board, pieceType);
 		nextTurn();
-		System.out.println();
-		System.out.println();
 	}
 
 	public PieceColor getTurn() {
