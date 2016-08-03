@@ -3,7 +3,7 @@ plugins {
 	id 'maven'
     id 'pl.allegro.tech.build.axion-release' version '1.3.5'
 }
-		
+
 repositories {
 	mavenCentral()
 }
@@ -29,28 +29,28 @@ install {
         	name 'chess'
   			description 'A chess game'
   			url 'https://github.com/marcelotomazini/chess'
-  
+
         	licenses {
         		license {
         			name 'The Apache Software License, Version 2.0'
       				url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
         		}
         	}
-        	
+
         	developers {
     			developer {
       				name 'Marcelo Tomazini'
       				email 'marcelo@marcelotomazini.com'
     			}
   			}
-  			
+
   			scm {
 				connection 'scm:git:git://github.com/marcelotomazini/chess.git'
 				developerConnection 'scm:git:ssh://github.com:marcelotomazini/chess.git'
 				url 'http://github.com/marcelotomazini/chess'
 			}
         }
-        
+
     }
 }
 
@@ -71,7 +71,7 @@ artifacts {
 
 scmVersion {
     tag {
-        prefix = 'com.marcelotomazini.boardgames.chess'
+        prefix = 'chess'
     }
 }
 
