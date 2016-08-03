@@ -5,7 +5,6 @@ import static com.nullpointergames.boardgames.chess.PieceType.KNIGHT;
 import java.util.List;
 
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Position;
 import com.nullpointergames.boardgames.Rule;
 import com.nullpointergames.boardgames.chess.PieceType;
@@ -17,46 +16,46 @@ public class KnightRule extends Rule {
 	}
 
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		int colTo = from.col() + 1;
 		int rowTo = from.row() + 2;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() + 1;
 		rowTo = from.row() - 2;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() - 1;
 		rowTo = from.row() + 2;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() - 1;
 		rowTo = from.row() - 2;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() + 2;
 		rowTo = from.row() + 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() + 2;
 		rowTo = from.row() - 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() - 2;
 		rowTo = from.row() + 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = from.col() - 2;
 		rowTo = from.row() - 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		return possibleMoves;
 	}
 
 	@Override
-	protected void addMove(int colTo, int rowTo) {
+	protected void addPosition(int colTo, int rowTo) {
 		try {
-			super.addMove(colTo, rowTo);
+			super.addPosition(colTo, rowTo);
 		} catch (RuntimeException e) {}
 	}
 

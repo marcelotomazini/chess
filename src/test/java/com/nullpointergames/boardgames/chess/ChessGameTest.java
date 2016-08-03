@@ -5,7 +5,6 @@ import static com.nullpointergames.boardgames.PieceColor.WHITE;
 import static com.nullpointergames.boardgames.chess.PieceType.KING;
 import static com.nullpointergames.boardgames.chess.PieceType.ROOK;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -40,7 +39,6 @@ public class ChessGameTest {
 	@Test
 	public void newChessGame() {
 		assertThat(game.getTurn(), equalTo(WHITE));
-		assertThat(game.getBoard(), hasSize(64));
 	}
 
 	@Test
@@ -187,6 +185,6 @@ public class ChessGameTest {
 	}
 	
 	private Piece getPiece(char col, int row) {
-		return game.getBoard().getPiece(new Position(col, row));
+		return game.find(new Position(col, row)).piece();
 	}
 }

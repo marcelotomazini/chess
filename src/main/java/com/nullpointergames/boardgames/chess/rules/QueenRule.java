@@ -5,7 +5,6 @@ import static com.nullpointergames.boardgames.chess.PieceType.QUEEN;
 import java.util.List;
 
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Position;
 import com.nullpointergames.boardgames.Rule;
 import com.nullpointergames.boardgames.chess.PieceType;
@@ -22,11 +21,11 @@ public class QueenRule extends Rule {
 	}
 	
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		BishopRule bishopRule = new BishopRule(board, from);
 		RookRule rookRule = new RookRule(board, from);
 		
-		List<Move> possibleMoves = bishopRule.possibleMovesWithoutCheckVerification();
+		List<Position> possibleMoves = bishopRule.possibleMovesWithoutCheckVerification();
 		possibleMoves.addAll(rookRule.possibleMovesWithoutCheckVerification());
 		
 		return possibleMoves;

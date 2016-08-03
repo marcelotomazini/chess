@@ -9,7 +9,6 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Piece;
 import com.nullpointergames.boardgames.Position;
 import com.nullpointergames.boardgames.Rule;
@@ -43,28 +42,28 @@ public class PawnRule extends Rule {
 	}
 	
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		Piece piece = board.getPiece(from);
 		int moveDirection = piece.color() == WHITE ? 1 : -1;
 
 		char colTo = from.col();
 		int rowTo = from.row() + moveDirection;
 		try {
-			addMove((int)colTo, rowTo);
+			addPosition((int)colTo, rowTo);
 			if(piece.isFirstMove())
-				addMove((int)colTo, rowTo + moveDirection);
+				addPosition((int)colTo, rowTo + moveDirection);
 		} catch (NoMoreMovesForThisDirection e) {}
 		
 		colTo = (char) (from.col() - 1);
 		rowTo = from.row() + moveDirection;
 		try {
-			addMove((int)colTo, rowTo);
+			addPosition((int)colTo, rowTo);
 		} catch (RuntimeException e) {}
 		
 		colTo = (char) (from.col() + 1);
 		rowTo = from.row() + moveDirection;
 		try {
-			addMove((int)colTo, rowTo);
+			addPosition((int)colTo, rowTo);
 		} catch (RuntimeException e) {}
 
 		return possibleMoves;

@@ -6,7 +6,6 @@ import static java.lang.Math.abs;
 import java.util.List;
 
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Position;
 import com.nullpointergames.boardgames.Rule;
 import com.nullpointergames.boardgames.chess.PieceType;
@@ -24,31 +23,31 @@ public class RookRule extends Rule {
 	}
 
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		for (int i = from.row() + 1; i <= LAST_LINE_IN_THE_BOARD; i++)
 			try {
-				addMove(from.col(), i);
+				addPosition(from.col(), i);
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}
 		
 		for (int i = from.row() - 1; i >= FIRST_LINE_IN_THE_BOARD; i--)
 			try {
-				addMove(from.col(), i);
+				addPosition(from.col(), i);
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}
 
 		for (int i = abs(from.col()) + 1; i <= abs(LAST_COLUMN_IN_THE_BOARD); i++)
 			try {
-				addMove((char)i, from.row());
+				addPosition((char)i, from.row());
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}
 			
 		for (int i = abs(from.col()) - 1; i >= abs(FIRST_COLUMN_IN_THE_BOARD); i--)
 			try {
-				addMove((char)i, from.row());
+				addPosition((char)i, from.row());
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}

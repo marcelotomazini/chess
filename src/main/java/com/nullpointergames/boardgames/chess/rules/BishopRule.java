@@ -6,7 +6,6 @@ import static java.lang.Math.abs;
 import java.util.List;
 
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Position;
 import com.nullpointergames.boardgames.Rule;
 import com.nullpointergames.boardgames.chess.PieceType;
@@ -24,12 +23,12 @@ public class BishopRule extends Rule {
 	}
 	
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		int row = from.row() + 1;
 		int col = abs(from.col()) + 1;
 		while(row <= LAST_LINE_IN_THE_BOARD && col <= abs(LAST_COLUMN_IN_THE_BOARD)) {
 			try {
-				addMove(col, row);
+				addPosition(col, row);
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}
@@ -41,7 +40,7 @@ public class BishopRule extends Rule {
 		col = abs(from.col()) - 1;
 		while(row <= LAST_LINE_IN_THE_BOARD && col >= abs(FIRST_COLUMN_IN_THE_BOARD)) {
 			try {
-				addMove(col, row);
+				addPosition(col, row);
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}
@@ -53,7 +52,7 @@ public class BishopRule extends Rule {
 		col = abs(from.col()) + 1;
 		while(row >= FIRST_LINE_IN_THE_BOARD && col <= abs(LAST_COLUMN_IN_THE_BOARD)) {
 			try {
-				addMove(col, row);
+				addPosition(col, row);
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}
@@ -65,7 +64,7 @@ public class BishopRule extends Rule {
 		col = abs(from.col()) - 1;
 		while(row >= FIRST_LINE_IN_THE_BOARD && col >= abs(FIRST_COLUMN_IN_THE_BOARD)) {
 			try {
-				addMove(col, row);
+				addPosition(col, row);
 			} catch (NoMoreMovesForThisDirection e) {
 				break;
 			}

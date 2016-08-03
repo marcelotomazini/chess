@@ -8,7 +8,6 @@ import static java.lang.Math.abs;
 import java.util.List;
 
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Piece;
 import com.nullpointergames.boardgames.Position;
 import com.nullpointergames.boardgames.Rule;
@@ -40,34 +39,34 @@ public class KingRule extends Rule {
 	}
 	
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		char colTo = (char) (from.col() + 1);
-		addMove(colTo, from.row());
+		addPosition(colTo, from.row());
 
 		colTo = (char) (from.col() + 1);
 		int rowTo = from.row() + 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = (char) (from.col() + 1);
 		rowTo = from.row() - 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = (char) (from.col() - 1);
-		addMove(colTo, from.row());
+		addPosition(colTo, from.row());
 
 		colTo = (char) (from.col() - 1);
 		rowTo = from.row() + 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		colTo = (char) (from.col() - 1);
 		rowTo = from.row() - 1;
-		addMove(colTo, rowTo);
+		addPosition(colTo, rowTo);
 
 		rowTo = from.row() + 1;
-		addMove(from.col(), rowTo);
+		addPosition(from.col(), rowTo);
 
 		rowTo = from.row() - 1;
-		addMove(from.col(), rowTo);
+		addPosition(from.col(), rowTo);
 		
 		if(isCastlingPossible(board, from)) {
 			Piece piece = board.getPiece(from);
@@ -88,10 +87,10 @@ public class KingRule extends Rule {
 			return;
 
 		if(maybeRook.isFirstMove()) {
-			Move newMove = newMove(from, (char)(abs(from.col()) + side), row);
+			Position to = new Position((char)(abs(from.col()) + side), row);
 			Piece piece = board.getPiece(from);
-			if(!isThreatened(board, piece, newMove))
-				addMove((char)(abs(from.col()) + side * 2), row);
+			if(!isThreatened(board, piece, to))
+				addPosition((char)(abs(from.col()) + side * 2), row);
 		}
 	}
 
@@ -119,13 +118,13 @@ public class KingRule extends Rule {
 		return board.getPiece(from).isFirstMove();
 	}
 
-	private void addMove(char colTo, int rowTo) {
+	private void addPosition(char colTo, int rowTo) {
 		try {
-			addMove((int)colTo,  rowTo);
+			addPosition((int)colTo,  rowTo);
 		} catch (RuntimeException e) {}
 	}
 
-	private boolean isThreatened(Board board, Piece piece, Move newMove) {
+	private boolean isThreatened(Board board, Piece piece, Position to) {
 		for(int row = FIRST_LINE_IN_THE_BOARD; row <= LAST_LINE_IN_THE_BOARD; row++)
 			for(int col = abs('a'); col <= abs(LAST_COLUMN_IN_THE_BOARD); col++) {
 				if(piece.color() == board.getPieceColor(new Position((char)col, row)))
@@ -135,8 +134,8 @@ public class KingRule extends Rule {
 				if(anotherPiece.type() == KING)
 					continue;
 				
-				for(Move m : RuleFactory.getRule(board, new Position((char)col, row)).possibleMovesWithoutCheckVerification())
-					if(m.to().equals(newMove.to()))
+				for(Position position : RuleFactory.getRule(board, new Position((char)col, row)).possibleMovesWithoutCheckVerification())
+					if(position.equals(to))
 						return true;
 			}
 		return false;

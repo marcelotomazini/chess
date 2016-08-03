@@ -14,7 +14,7 @@ public class NullRule extends Rule {
 	}
 
 	@Override
-	public List<Move> possibleMovesWithoutCheckVerification() {
+	public List<Position> possibleMovesWithoutCheckVerification() {
 		return emptyList();
 	}
 

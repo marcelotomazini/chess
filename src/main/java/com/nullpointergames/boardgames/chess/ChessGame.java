@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.nullpointergames.boardgames.Block;
 import com.nullpointergames.boardgames.Board;
-import com.nullpointergames.boardgames.Move;
 import com.nullpointergames.boardgames.Piece;
 import com.nullpointergames.boardgames.PieceColor;
 import com.nullpointergames.boardgames.Position;
@@ -42,10 +41,6 @@ public class ChessGame {
 		putPieces();
 	}
 
-	public Board getBoard() {
-		return board;
-	}
-	
 	public void move(final Position from, final Position to) throws PromotionException {
 		if(isOver) {
 			String result = winner == myColor ? getMessage(YOU_WON) : getMessage(YOU_LOST);
@@ -57,6 +52,14 @@ public class ChessGame {
 		
 		move(board, from, to);
 		nextTurn();
+	}
+	
+	public Block find(Position position) {
+		return board.find(position);
+	}
+	
+	public List<Position> getPossibleMoves(Position from) {
+		return RuleFactory.getRule(board, from).possibleMoves();
 	}
 	
 	private void move(Board board, Position from, Position to) throws PromotionException {
@@ -133,7 +136,7 @@ public class ChessGame {
 			if(piece.color() != turn)
 				continue;
 			
-			List<Move> possibleMoves = RuleFactory.getRule(board, b.position()).possibleMoves();
+			List<Position> possibleMoves = RuleFactory.getRule(board, b.position()).possibleMoves();
 			if(!possibleMoves.isEmpty())
 				return false;
 		}
@@ -148,8 +151,8 @@ public class ChessGame {
 				if(p.color() == myColor)
 					continue;
 				
-				for(Move m : RuleFactory.getRule(board, b.position()).possibleMoves()) {
-					Piece piece = board.getPiece(m.to());
+				for(Position position : RuleFactory.getRule(board, b.position()).possibleMoves()) {
+					Piece piece = board.getPiece(position);
 					if(piece.type() == KING)
 						return true;
 				}
