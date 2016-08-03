@@ -71,6 +71,7 @@ public class ChessGame {
 		pawnRule.promoteTo(board, pieceType);
 		nextTurn();
 		System.out.println();
+		System.out.println();
 	}
 
 	public PieceColor getTurn() {
