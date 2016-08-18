@@ -5,7 +5,6 @@ import static com.nullpointergames.boardgames.PieceColor.WHITE;
 import static com.nullpointergames.boardgames.chess.PieceType.KING;
 import static com.nullpointergames.boardgames.chess.PieceType.ROOK;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -154,8 +153,6 @@ public class ChessGameTest {
 		} catch (Exception e) {
 			assertThat(e.getMessage(), equalTo("Game over. You lost"));
 		}
-		
-		assertThat(game.isOver(), is(true));
 	}
 
 	@Test
@@ -180,8 +177,66 @@ public class ChessGameTest {
 		} catch (Exception e) {
 			assertThat(e.getMessage(), equalTo("Game over. You won"));
 		}
+	}
+	
+	@Test
+	public void longGame() throws PromotionException {
+		move('a', 2, 'a', 3);
+		move('a', 7, 'a', 6);
+		move('a', 3, 'a', 4);
+		move('a', 6, 'a', 5);
+
+		move('b', 2, 'b', 3);
+		move('b', 7, 'b', 6);
+		move('b', 3, 'b', 4);
+		move('b', 6, 'b', 5);
+
+		move('c', 2, 'c', 3);
+		move('c', 7, 'c', 6);
+		move('c', 3, 'c', 4);
+		move('c', 6, 'c', 5);
+
+		move('d', 2, 'd', 3);
+		move('d', 7, 'd', 6);
+		move('d', 3, 'd', 4);
+		move('d', 6, 'd', 5);
+
+		move('e', 2, 'e', 3);
+		move('e', 7, 'e', 6);
+		move('e', 3, 'e', 4);
+		move('e', 6, 'e', 5);
+
+		move('f', 2, 'f', 3);
+		move('f', 7, 'f', 6);
+		move('f', 3, 'f', 4);
+		move('f', 6, 'f', 5);
+
+		move('g', 2, 'g', 3);
+		move('g', 7, 'g', 6);
+		move('g', 3, 'g', 4);
+		move('g', 6, 'g', 5);
+
+		move('h', 2, 'h', 3);
+		move('h', 7, 'h', 6);
+		move('h', 3, 'h', 4);
+		move('h', 6, 'h', 5);
 		
-		assertThat(game.isOver(), is(true));
+		move('a', 1, 'a', 2);
+		move('a', 8, 'a', 7);
+		move('b', 1, 'a', 3);
+		move('b', 8, 'a', 6);
+		move('c', 1, 'b', 2);
+		move('c', 8, 'b', 7);
+		move('d', 1, 'a', 1);
+		move('d', 8, 'a', 8);
+		move('e', 1, 'd', 1);
+		move('e', 8, 'd', 8);
+		move('f', 1, 'g', 2);
+		move('f', 8, 'g', 7);
+		move('g', 1, 'h', 3);
+		move('g', 8, 'h', 6);
+		move('h', 1, 'h', 2);
+		move('h', 8, 'h', 7);
 	}
 	
 	private Piece getPiece(char col, int row) {

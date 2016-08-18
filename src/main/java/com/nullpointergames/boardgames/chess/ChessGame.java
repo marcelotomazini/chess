@@ -62,10 +62,6 @@ public class ChessGame {
 		return RuleFactory.getRule(board, from).possibleMoves();
 	}
 	
-	private void move(Board board, Position from, Position to) throws PromotionException {
-		RuleFactory.getRule(board, from).move(to);
-	}
-
 	public void promoteTo(PieceType pieceType) {
 		PawnRule pawnRule = new PawnRule(board, null);
 		pawnRule.promoteTo(board, pieceType);
@@ -75,7 +71,63 @@ public class ChessGame {
 	public PieceColor getTurn() {
 		return turn;
 	}
+	
+	public void verifyGame() {
+		if(isCheckmate()) {
+			isOver = true;
+			winner = turn == WHITE ? BLACK : WHITE;
+			String result = winner == myColor ? getMessage(YOU_WON) : getMessage(YOU_LOST);
+			throw new RuntimeException(format("%s. %s", getMessage(CHECKMATE), result));
+		}
+		
+		if(isCheck())
+			throw new RuntimeException(getMessage(CHECK));
+	}
 
+	private void move(Board board, Position from, Position to) throws PromotionException {
+		RuleFactory.getRule(board, from).move(to);
+	}
+	
+	private void putPiece(PieceType type, PieceColor color, char col, int row) {
+		board.put(new Piece(type, color), new Position(col, row));		
+	}
+
+	private final void nextTurn() {
+		turn = turn.equals(WHITE) ? BLACK : WHITE;
+		verifyGame();
+	}
+
+	private boolean isCheckmate() {
+		for(Block b : board) {
+			Piece piece = board.getPiece(b.position());
+			if(piece.color() != turn)
+				continue;
+			
+			List<Position> possibleMoves = RuleFactory.getRule(board, b.position()).possibleMoves();
+			if(!possibleMoves.isEmpty())
+				return false;
+		}
+		
+		return true;
+	}
+
+	private boolean isCheck() {
+		if(turn == myColor)
+			for(Block b : board) {
+				Piece p = board.getPiece(b.position());
+				if(p.color() == myColor)
+					continue;
+				
+				for(Position position : RuleFactory.getRule(board, b.position()).possibleMoves()) {
+					Piece piece = board.getPiece(position);
+					if(piece.type() == KING)
+						return true;
+				}
+			}
+			
+		return false;
+	}
+	
 	private void putPieces() {
 		putPiece(ROOK, WHITE, 'a', 1);
 		putPiece(KNIGHT, WHITE, 'b', 1);
@@ -110,58 +162,5 @@ public class ChessGame {
 		putPiece(PAWN, BLACK, 'f', 7);
 		putPiece(PAWN, BLACK, 'g', 7);
 		putPiece(PAWN, BLACK, 'h', 7);
-	}
-	
-	private void putPiece(PieceType type, PieceColor color, char col, int row) {
-		board.put(new Piece(type, color), new Position(col, row));		
-	}
-
-	private final void nextTurn() {
-		turn = turn.equals(WHITE) ? BLACK : WHITE;
-		
-		if(isCheckmate()) {
-			isOver = true;
-			winner = turn == WHITE ? BLACK : WHITE;
-			String result = winner == myColor ? getMessage(YOU_WON) : getMessage(YOU_LOST);
-			throw new RuntimeException(format("%s. %s", getMessage(CHECKMATE), result));
-		}
-		
-		if(isCheck())
-			throw new RuntimeException(getMessage(CHECK));
-	}
-
-	private boolean isCheckmate() {
-		for(Block b : board) {
-			Piece piece = board.getPiece(b.position());
-			if(piece.color() != turn)
-				continue;
-			
-			List<Position> possibleMoves = RuleFactory.getRule(board, b.position()).possibleMoves();
-			if(!possibleMoves.isEmpty())
-				return false;
-		}
-		
-		return true;
-	}
-
-	private boolean isCheck() {
-		if(turn == myColor)
-			for(Block b : board) {
-				Piece p = board.getPiece(b.position());
-				if(p.color() == myColor)
-					continue;
-				
-				for(Position position : RuleFactory.getRule(board, b.position()).possibleMoves()) {
-					Piece piece = board.getPiece(position);
-					if(piece.type() == KING)
-						return true;
-				}
-			}
-			
-		return false;
-	}
-
-	public boolean isOver() {
-		return isOver;
 	}
 }
