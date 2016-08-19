@@ -85,6 +85,10 @@ public abstract class Rule {
 		if(!possibleMoves().contains(to))
 			throw new RuntimeException(getMessage(ILLEGAL_MOVE));
 		
+		moveWithoutVerification(to);
+	}
+	
+	public void moveWithoutVerification(Position to) throws PromotionException {
 		Piece piece = board.getPiece(from);
 		board.put(piece, to);
 		board.clear(from);

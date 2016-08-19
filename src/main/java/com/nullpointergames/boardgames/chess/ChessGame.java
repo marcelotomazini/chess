@@ -54,6 +54,13 @@ public class ChessGame {
 		nextTurn();
 	}
 	
+	public void moveWithoutVerification(final Position from, final Position to) {
+		try {
+			RuleFactory.getRule(board, from).moveWithoutVerification(to);
+			nextTurn();
+		} catch (PromotionException e) {}
+	}
+	
 	public Block find(Position position) {
 		return board.find(position);
 	}
