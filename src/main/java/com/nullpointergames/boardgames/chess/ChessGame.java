@@ -30,14 +30,19 @@ import com.nullpointergames.boardgames.chess.rules.PawnRule;
 
 public class ChessGame {
 
-	private final Board board = new Board();
+	private final Board board;
 	private final PieceColor myColor;
 	private PieceColor turn = WHITE;
 	private boolean isOver;
 	private PieceColor winner;
 
 	public ChessGame(PieceColor myColor) {
+		this(myColor, new Board());
+	}
+	
+	private ChessGame(PieceColor myColor, Board board) {
 		this.myColor = myColor;
+		this.board = board;
 		putPieces();
 	}
 
@@ -91,6 +96,14 @@ public class ChessGame {
 			throw new RuntimeException(getMessage(CHECK));
 	}
 
+	public ChessGame clone() {
+		ChessGame chessGame = new ChessGame(myColor, board);
+		chessGame.isOver = isOver;
+		chessGame.winner = winner;
+		
+		return chessGame;
+	}
+	
 	private void move(Board board, Position from, Position to) throws PromotionException {
 		RuleFactory.getRule(board, from).move(to);
 	}
