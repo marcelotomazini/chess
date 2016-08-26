@@ -99,7 +99,8 @@ public class ChessGame {
 	public ChessGame clone() {
 		ChessGame chessGame = new ChessGame(myColor, board.clone());
 		chessGame.isOver = new Boolean(isOver);
-		chessGame.winner = winner == WHITE ? WHITE : BLACK;
+		chessGame.winner = winner;
+		chessGame.turn = turn == WHITE ? WHITE : BLACK;
 		
 		return chessGame;
 	}
