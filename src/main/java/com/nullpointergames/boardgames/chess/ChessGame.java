@@ -97,7 +97,7 @@ public class ChessGame {
 	}
 
 	public ChessGame clone() {
-		ChessGame chessGame = new ChessGame(myColor, board);
+		ChessGame chessGame = new ChessGame(myColor, board.clone());
 		chessGame.isOver = isOver;
 		chessGame.winner = winner;
 		
