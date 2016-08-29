@@ -12,7 +12,7 @@ import com.nullpointergames.boardgames.Rule;
 public abstract class RuleTest {
 
 	protected List<Position> possibleMoves;
-	protected Board board = new Board();
+	protected Board board = new Board(false);
 	
 	protected abstract Rule rule(Position from);
 	

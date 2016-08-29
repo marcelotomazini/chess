@@ -6,8 +6,8 @@ public class Board extends ArrayList<Block> {
 
 	private static final long serialVersionUID = 1L;
 
-	public Board() {
-		createBlocks();
+	public Board(boolean rotate) {
+		createBlocks(rotate);
 	}
 
 	public void put(Piece piece, Position position) {
@@ -22,10 +22,18 @@ public class Board extends ArrayList<Block> {
 		throw new RuntimeException();
 	}
 
-	private void createBlocks() {
-		for (int row = 1; row <= 8; row++)
-			for (char col = 'a'; col <= 'h'; col++)
-				add(new Block(new Position(col, row)));
+	private void createBlocks(boolean rotate) {
+		if(rotate)
+			for (int row = 1; row <= 8; row++)
+				addNewBlock(row);
+		else
+			for (int row = 8; row >= 1; row--)
+				addNewBlock(row);
+	}
+
+	private void addNewBlock(int row) {
+		for (char col = 'a'; col <= 'h'; col++)
+			add(new Block(new Position(col, row)));
 	}
 
 	@Override
@@ -58,7 +66,7 @@ public class Board extends ArrayList<Block> {
 	}
 	
 	public Board clone() {
-		Board newBoard = new Board();
+		Board newBoard = new Board(false);
 		for(Block block : this)
 			for(Block newBlock : newBoard)
 				if(newBlock.position().equals(block.position())) {

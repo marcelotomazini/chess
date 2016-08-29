@@ -37,7 +37,7 @@ public class ChessGame {
 	private PieceColor winner;
 
 	public ChessGame(PieceColor myColor) {
-		this(myColor, new Board());
+		this(myColor, new Board(myColor != WHITE));
 	}
 	
 	private ChessGame(PieceColor myColor, Board board) {
@@ -46,6 +46,10 @@ public class ChessGame {
 		putPieces();
 	}
 
+	public Board getBoard() {
+		return board;
+	}
+	
 	public void move(final Position from, final Position to) throws PromotionException {
 		if(isOver) {
 			String result = winner == myColor ? getMessage(YOU_WON) : getMessage(YOU_LOST);
