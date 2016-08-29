@@ -77,7 +77,6 @@ public class ChessGame {
 	public void promoteTo(PieceType pieceType) {
 		PawnRule pawnRule = new PawnRule(board, null);
 		pawnRule.promoteTo(board, pieceType);
-		nextTurn();
 	}
 
 	public PieceColor getTurn() {
