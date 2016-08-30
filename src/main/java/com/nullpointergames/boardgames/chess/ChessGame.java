@@ -10,6 +10,7 @@ import static com.nullpointergames.boardgames.chess.PieceType.QUEEN;
 import static com.nullpointergames.boardgames.chess.PieceType.ROOK;
 import static com.nullpointergames.boardgames.utils.MessageUtils.CHECK;
 import static com.nullpointergames.boardgames.utils.MessageUtils.CHECKMATE;
+import static com.nullpointergames.boardgames.utils.MessageUtils.CHOOSE_YOUR_PIECE;
 import static com.nullpointergames.boardgames.utils.MessageUtils.GAME_OVER;
 import static com.nullpointergames.boardgames.utils.MessageUtils.IT_IS_NOT_YOUR_TURN;
 import static com.nullpointergames.boardgames.utils.MessageUtils.YOU_LOST;
@@ -56,6 +57,9 @@ public class ChessGame {
 			throw new RuntimeException(format("%s. %s", getMessage(GAME_OVER), result));
 		}
 		
+		if(board.getPieceColor(from) != myColor)
+			throw new RuntimeException(getMessage(CHOOSE_YOUR_PIECE, getMessage(myColor.name())));
+		
 		if(board.getPieceColor(from) != turn)
 			throw new RuntimeException(getMessage(IT_IS_NOT_YOUR_TURN));
 		
@@ -87,7 +91,7 @@ public class ChessGame {
 		return turn;
 	}
 	
-	public void verifyGame() {
+	public void verifyCheckAndCheckmate() {
 		if(isCheckmate()) {
 			isOver = true;
 			winner = turn == WHITE ? BLACK : WHITE;
@@ -118,7 +122,7 @@ public class ChessGame {
 
 	private final void nextTurn() {
 		turn = turn.equals(WHITE) ? BLACK : WHITE;
-		verifyGame();
+		verifyCheckAndCheckmate();
 	}
 
 	private boolean isCheckmate() {
@@ -136,18 +140,10 @@ public class ChessGame {
 	}
 
 	private boolean isCheck() {
-		if(turn == myColor)
-			for(Block b : board) {
-				Piece p = board.getPiece(b.position());
-				if(p.color() == myColor)
-					continue;
-				
-				for(Position position : RuleFactory.getRule(board, b.position()).possibleMoves()) {
-					Piece piece = board.getPiece(position);
-					if(piece.type() == KING)
-						return true;
-				}
-			}
+		for(Block b : board)
+			for(Position position : RuleFactory.getRule(board, b.position()).possibleMoves())
+				if(board.getPieceType(position) == KING)
+					return true;
 			
 		return false;
 	}

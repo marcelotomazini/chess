@@ -4,9 +4,14 @@ import java.util.ResourceBundle;
 
 public class MessageUtils {
 
-	public static String getMessage(String key) {
+	public static String getMessage(String key, Object... parameters) {
 		ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle");
-		return messages.getString(key);
+		String message = messages.getString(key);
+		
+		for(Object p : parameters)
+			message = message.replaceFirst("@", p.toString());
+		
+		return message;
 	}
 	
 	public static final String ILLEGAL_MOVE = "illegalMove";
@@ -17,4 +22,5 @@ public class MessageUtils {
 	public static final String GAME_OVER = "gameOver";
 	public static final String YOU_WON = "youWon";
 	public static final String YOU_LOST = "youLost";
+	public static final String CHOOSE_YOUR_PIECE = "chooseYourPiece";
 }
