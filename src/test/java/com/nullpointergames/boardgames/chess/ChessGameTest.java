@@ -3,6 +3,8 @@ package com.nullpointergames.boardgames.chess;
 import static com.nullpointergames.boardgames.PieceColor.BLACK;
 import static com.nullpointergames.boardgames.PieceColor.WHITE;
 import static com.nullpointergames.boardgames.chess.PieceType.KING;
+import static com.nullpointergames.boardgames.chess.PieceType.NULL;
+import static com.nullpointergames.boardgames.chess.PieceType.PAWN;
 import static com.nullpointergames.boardgames.chess.PieceType.ROOK;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -271,6 +273,15 @@ public class ChessGameTest {
 		moveWithoutVerification('g', 8, 'h', 6);
 		move('h', 1, 'h', 2);
 		moveWithoutVerification('h', 8, 'h', 7);
+	}
+	
+	@Test
+	public void cloneGame() throws Exception {
+		move('a', 2, 'a', 3);
+		
+		ChessGame clone = game.clone();
+		assertThat(clone.getBoard().getPieceType(new Position('a', 2)), equalTo(NULL));
+		assertThat(clone.getBoard().getPieceType(new Position('a', 3)), equalTo(PAWN));
 	}
 	
 	private Piece getPiece(char col, int row) {

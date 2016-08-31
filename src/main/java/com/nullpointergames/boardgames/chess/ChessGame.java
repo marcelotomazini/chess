@@ -39,12 +39,12 @@ public class ChessGame {
 
 	public ChessGame(PieceColor myColor) {
 		this(myColor, new Board(myColor != WHITE));
+		putPieces();
 	}
 	
 	private ChessGame(PieceColor myColor, Board board) {
 		this.myColor = myColor;
 		this.board = board;
-		putPieces();
 	}
 
 	public Board getBoard() {
