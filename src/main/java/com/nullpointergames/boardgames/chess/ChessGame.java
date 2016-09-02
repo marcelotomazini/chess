@@ -122,7 +122,6 @@ public class ChessGame {
 
 	private final void nextTurn() {
 		turn = turn.equals(WHITE) ? BLACK : WHITE;
-		verifyCheckAndCheckmate();
 	}
 
 	private boolean isCheckmate() {

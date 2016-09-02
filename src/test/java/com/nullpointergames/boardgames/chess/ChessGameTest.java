@@ -164,6 +164,7 @@ public class ChessGameTest {
 		move('d', 1, 'f', 3);
 		moveWithoutVerification('a', 6, 'a', 5);
 		move('f', 3, 'f', 7);
+		verifyCheckAndCheckmate();
 	}
 
 	@Test
@@ -176,6 +177,7 @@ public class ChessGameTest {
 			move('f', 1, 'c', 4);
 			moveWithoutVerification('a', 5, 'a', 4);
 			move('f', 3, 'f', 7);
+			verifyCheckAndCheckmate();
 			fail();
 		} catch (Exception e) {
 			assertThat(e.getMessage(), equalTo("Checkmate. You won"));
@@ -202,6 +204,7 @@ public class ChessGameTest {
 			move('f', 8, 'c', 5);
 			moveWithoutVerification('a', 5, 'a', 6);
 			move('h', 4, 'f', 2);
+			verifyCheckAndCheckmate();
 			fail();
 		} catch (Exception e) {
 			assertThat(e.getMessage(), equalTo("Checkmate. You won"));
@@ -286,5 +289,9 @@ public class ChessGameTest {
 	
 	private Piece getPiece(char col, int row) {
 		return game.find(new Position(col, row)).piece();
+	}
+	
+	private void verifyCheckAndCheckmate() {
+		game.verifyCheckAndCheckmate();
 	}
 }
