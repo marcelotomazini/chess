@@ -75,6 +75,15 @@ public class PawnRule extends Rule {
 		board.put(promotedPiece, position);
 	}
 
+	@Override
+	protected void addPosition(int colTo, int rowTo) {
+		try {
+			super.addPosition(colTo, rowTo);
+		} catch (NoMoreMovesForThisDirection e) {
+			throw e;
+		} catch (RuntimeException e) {}
+	}
+	
 	private Position findPawnPositionToPromote(Board board) {
 		for(int line : asList(FIRST_LINE_IN_THE_BOARD, LAST_LINE_IN_THE_BOARD)) {
 			Position position = findPawnPosition(line);

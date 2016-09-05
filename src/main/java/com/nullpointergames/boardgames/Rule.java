@@ -67,7 +67,9 @@ public abstract class Rule {
 						return false;
 				}
 			}
-		} catch (PromotionException e) {} catch (RuntimeException e) {
+		} catch (PromotionException e) {
+
+		} catch (RuntimeException e) {
  			return false;
 		}
 		return true;

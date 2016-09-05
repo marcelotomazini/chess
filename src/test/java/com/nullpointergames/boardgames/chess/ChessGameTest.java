@@ -287,6 +287,25 @@ public class ChessGameTest {
 		assertThat(clone.getBoard().getPieceType(new Position('a', 3)), equalTo(PAWN));
 	}
 	
+	@Test
+	public void refreshRightBeforePromoteToNewPiece() throws Exception {
+		move('a', 2, 'a', 4);
+		moveWithoutVerification('h', 7, 'h', 6);
+		move('a', 4, 'a', 5);
+		moveWithoutVerification('h', 6, 'h', 5);
+		move('a', 5, 'a', 6);
+		moveWithoutVerification('h', 5, 'h', 4);
+		move('a', 6, 'b', 7);
+		moveWithoutVerification('h', 4, 'h', 3);
+		
+		try {
+			move('b', 7, 'a', 8);
+			fail();
+		} catch (PromotionException e) {
+			game.verifyCheckAndCheckmate();
+		}
+	}
+	
 	private Piece getPiece(char col, int row) {
 		return game.find(new Position(col, row)).piece();
 	}
