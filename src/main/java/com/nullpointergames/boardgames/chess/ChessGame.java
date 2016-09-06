@@ -70,8 +70,9 @@ public class ChessGame {
 	public void moveWithoutVerification(final Position from, final Position to) {
 		try {
 			RuleFactory.getRule(board, from).moveWithoutVerification(to);
-			nextTurn();
 		} catch (PromotionException e) {}
+		
+		nextTurn();
 	}
 	
 	public Block find(Position position) {
